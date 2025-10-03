@@ -1,13 +1,13 @@
 # Assignment2_DAA – Sorting Algorithms with Benchmarks
 
-## 📌 Overview
+##  Overview
 This project is part of the **Design and Analysis of Algorithms (DAA)** course.  
 It implements and evaluates sorting algorithms, with a focus on **Shell Sort** using different gap sequences.  
 Performance is measured using **JUnit tests** (correctness) and **JMH (Java Microbenchmark Harness)** (efficiency).
 
 ---
 
-## 🚀 Features
+##  Features
 1. **Sorting Algorithms**
     - Shell Sort with multiple gap sequences:
         - **Shell** (original sequence)
@@ -59,7 +59,7 @@ Assignment2_DAA/
 
 ---
 
-## ✅ Running Unit Tests
+##  Running Unit Tests
 Unit tests verify correctness of sorting algorithms.
 
 ```bash
@@ -73,22 +73,22 @@ java -jar target/Assignment2_DAA-1.0-SNAPSHOT-benchmarks.jar -f 1 -wi 1 -i 3
 
 ```
 ___
-📌 Development Workflow
+## Development Workflow
 •	Feature Branches used for implementing tasks (e.g., feature/benchmarks, feature/docs).
 •	Maven Shade Plugin used to package benchmark jar.
 •	Annotation Processing generates JMH classes.
 ---
 
-## 🔬 Empirical Validation of ShellSort
+##  Empirical Validation of ShellSort
 
 To ensure that the implementation of **ShellSort** is not only theoretically correct but also practically efficient, we conducted **empirical validation** through performance benchmarks.
 
-### ✅ Goals
+###  Goals
 - Verify **correctness** of sorting results on different input sizes.
 - Measure **execution time** across multiple gap sequences (Shell, Knuth, Sedgewick).
 - Compare performance trade-offs between **theoretical expectations** and **real execution**.
 
-### 📊 Methodology
+###  Methodology
 - Implemented JMH (**Java Microbenchmark Harness**) for precise benchmarking.
 - Benchmarks were executed with:
     - Warm-up iterations to stabilize the JVM.
@@ -97,7 +97,7 @@ To ensure that the implementation of **ShellSort** is not only theoretically cor
 - Metrics collected: **average execution time (ms)**.
 ---
 
-## 📊 **Benchmark Results**
+##  **Benchmark Results**
 
 | **Algorithm**   | **Size = 1,000** | **Size = 10,000** | **Size = 50,000** |
 |-----------------|-----------------:|------------------:|------------------:|
@@ -132,7 +132,7 @@ Here we bridge the gap between **asymptotic complexity** and **real execution re
 
 ---
 
-## ✅ **Conclusion**
+##  **Conclusion**
 
 The project successfully demonstrates the implementation and analysis of **Shell Sort** with three different gap sequences:
 - **Shell sequence** (baseline, less efficient)
@@ -142,4 +142,3 @@ The project successfully demonstrates the implementation and analysis of **Shell
 📊 Benchmarking with **JMH** showed that both **Knuth** and **Sedgewick** sequences outperform the original Shell sequence, especially on larger input sizes.  
 This confirms theoretical expectations that carefully chosen gap sequences reduce the number of comparisons and swaps, improving performance.
 
-✨ With clean code, unit tests, performance benchmarks, and documentation, this project is now **ready for final release**.  
