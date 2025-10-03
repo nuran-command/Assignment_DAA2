@@ -68,7 +68,7 @@ public final class ShellSort {
                 }
                 Collections.reverse(list);
                 break;
-
+//Sedgewick gap sequence
             case SEDGEWICK:
                 // common Sedgewick increments (precomputed). Add those < n.
                 int[] sedgewick = {1, 5, 19, 41, 109, 209, 505, 929, 2161, 3905, 8929, 16001, 36289, 64769, 146305, 260609};
