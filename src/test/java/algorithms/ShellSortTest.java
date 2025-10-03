@@ -1,82 +1,60 @@
-package com.carrental.algorithms;
+package algorithms;
+import com.carrental.algorithms.ShellSort;
 
 import com.carrental.metrics.Metrics;
+import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.Arrays;
 
-public final class ShellSort {
+import static org.junit.jupiter.api.Assertions.*;
 
-    public enum GapSequence { SHELL, KNUTH, SEDGEWICK }
+public class ShellSortTest {
 
-    // Public API called by BenchmarkRunner/tests
-    public static void sort(int[] a, Metrics metrics, GapSequence seq) {
-        if (a == null) throw new IllegalArgumentException("array is null");
-        // caller may reset metrics; reset here for safety
-        metrics.reset();
+    @Test
+    public void emptyArray() {
+        int[] a = new int[0];
+        Metrics m = new Metrics();
+        ShellSort.sort(a, m, ShellSort.GapSequence.SHELL);
+        assertArrayEquals(new int[0], a);
+    }
 
-        int n = a.length;
-        if (n < 2) return;
+    @Test
+    public void singleElement() {
+        int[] a = {42};
+        Metrics m = new Metrics();
+        ShellSort.sort(a, m, ShellSort.GapSequence.KNUTH);
+        assertArrayEquals(new int[]{42}, a);
+    }
 
-        int[] gaps = generateGaps(n, seq);
-        for (int gap : gaps) {
-            // gapped insertion sort
-            for (int i = gap; i < n; i++) {
-                int temp = read(a, i, metrics);
-                int j = i;
-                while (j >= gap && cmpVals(read(a, j - gap, metrics), temp, metrics) > 0) {
-                    // shift element right
-                    write(a, j, read(a, j - gap, metrics), metrics);
-                    metrics.incrementSwaps(); // count shift as a move
-                    j -= gap;
-                }
-                write(a, j, temp, metrics);
+    @Test
+    public void sortedAndReverse() {
+        int[] s = {1,2,3,4,5};
+        int[] r = {5,4,3,2,1};
+        Metrics m = new Metrics();
+        ShellSort.sort(s, m, ShellSort.GapSequence.SEDGEWICK);
+        ShellSort.sort(r, m, ShellSort.GapSequence.SEDGEWICK);
+        assertArrayEquals(new int[]{1,2,3,4,5}, s);
+        assertArrayEquals(new int[]{1,2,3,4,5}, r);
+    }
+
+    @Test
+    public void randomizedSmall() {
+        for (int n : new int[]{0,1,5,50}) {
+            for (int seed = 0; seed < 5; seed++) {
+                int[] a = randomArray(n, seed);
+                int[] expected = Arrays.copyOf(a, a.length);
+                Arrays.sort(expected);
+                Metrics m = new Metrics();
+                ShellSort.sort(a, m, ShellSort.GapSequence.KNUTH);
+                assertArrayEquals(expected, a);
             }
         }
     }
 
-    // --- helpers that account for metrics ---
-    private static int read(int[] a, int i, Metrics m) {
-        m.incrementArrayAccesses();
-        return a[i];
-    }
-
-    private static void write(int[] a, int i, int val, Metrics m) {
-        m.incrementArrayAccesses();
-        a[i] = val;
-    }
-
-    private static int cmpVals(int x, int y, Metrics m) {
-        m.incrementComparisons();
-        return Integer.compare(x, y);
-    }
-
-    // --- gap generators ---
-    private static int[] generateGaps(int n, GapSequence seq) {
-        List<Integer> list = new ArrayList<>();
-        switch (seq) {
-            case SHELL:
-                for (int gap = n / 2; gap > 0; gap /= 2) list.add(gap);
-                break;
-
-            case KNUTH:
-                int h = 1;
-                while (h < n) {
-                    list.add(h);
-                    h = 3 * h + 1;
-                }
-                Collections.reverse(list);
-                break;
-
-            case SEDGEWICK:
-                // common Sedgewick increments (precomputed). Add those < n.
-                int[] sedgewick = {1, 5, 19, 41, 109, 209, 505, 929, 2161, 3905, 8929, 16001, 36289, 64769, 146305, 260609};
-                for (int g : sedgewick) if (g < n) list.add(g);
-                Collections.reverse(list);
-                break;
-        }
-        return list.stream().mapToInt(Integer::intValue).toArray();
+    private int[] randomArray(int n, int seed) {
+        java.util.Random r = new java.util.Random(seed);
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) a[i] = r.nextInt(1000);
+        return a;
     }
 }
-
