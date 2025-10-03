@@ -13,6 +13,7 @@ public final class ShellSort {
     // Public API called by BenchmarkRunner/tests
     public static void sort(int[] a, Metrics metrics, GapSequence seq) {
         if (a == null) throw new IllegalArgumentException("array is null");
+        // edge cases
         // caller may reset metrics; reset here for safety
         metrics.reset();
 
