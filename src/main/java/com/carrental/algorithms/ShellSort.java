@@ -59,7 +59,7 @@ public final class ShellSort {
             case SHELL:
                 for (int gap = n / 2; gap > 0; gap /= 2) list.add(gap);
                 break;
-
+//Knuth gap sequence
             case KNUTH:
                 int h = 1;
                 while (h < n) {
